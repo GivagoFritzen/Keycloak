@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:20.0.2
+    command: start-dev    #build        - Creates a new and optimized server image.
+                          #start        - Start the server.
+                          #start-dev    - Start the server in development mode.
+                          #export       - Export data from realms to a file or directory.
+                          #import       - Import data from a directory or a file.
+                          #show-config  - Print out the current configuration.
+                          #tools        - Utilities for use and interaction with the server.
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HEALTH_ENABLED: "true"
+      KC_LOG_LEVEL: info
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health/ready" ]
+      interval: 15s
+      timeout: 2s
+      retries: 15
+    ports:
+      - "8080:8080"
